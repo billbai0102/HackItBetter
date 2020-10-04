@@ -11,7 +11,7 @@ import numpy as np
 
 import ml_utils as utils
 from data import MRIDataset
-from models import ResNeXtUNet, Loss
+from models import UNet, Loss
 from hyperparameters import *
 
 
@@ -22,7 +22,7 @@ class Model:
         self.val_dl = val_dl
 
         self.loss = Loss()
-        self.net = ResNeXtUNet(1).to(self.device)
+        self.net = UNet(1).to(self.device)
         self.net.apply(Model._init_weights)
         self.criterion = self.loss.BCEDiceLoss
         self.optim = None
