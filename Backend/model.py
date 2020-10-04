@@ -4,7 +4,7 @@ from torch import functional as F
 from torchsummary import summary
 from torchvision.models import resnext50_32x4d
 
-from hyperparameters import *
+DECODE_IN = 2048
 
 
 class ConvBlock(nn.Module):
