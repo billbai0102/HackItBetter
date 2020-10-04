@@ -1,0 +1,7 @@
+BATCH_SIZE = 4
+EPOCHS = 20
+
+DECODE_IN = 2048
+
+LR = 2e-4
+BETAS = (.5, .99)

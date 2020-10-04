@@ -18,9 +18,8 @@ class MRIDataset(Dataset):
         mask = cv2.imread(self.df.iloc[idx]['Mask'], 0)
 
         if self.transform is not None:
-            transformed = self.transform(image=mri, mask=mask)
-            mri = transformed['image']
-            mask = transformed['mask']
+            mri = self.transform(mri)
+            mask = self.transform(mask)
 
         return {
             'MRI': mri,
