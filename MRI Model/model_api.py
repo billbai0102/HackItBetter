@@ -94,27 +94,25 @@ class Model:
 
     def evaluate(self):
         # model.eval()
-        valloss = 0
+        loss_v = 0
 
         with torch.no_grad():
             for idx, data in enumerate(self.val_dl):
-                data, target = data['MRI'], data['Mask']
+                image, target = data['MRI'], data['Mask']
 
-                data = data.to(self.device)
+                image = image.to(self.device)
                 target = target.to(self.device)
-                # prediction = model(x_gpu)
 
-                outputs = self.net(data)
-                # print("val_output:", outputs.shape)
+                outputs = self.net(image)
 
-                out_cut = np.copy(outputs.data.cpu().numpy())
-                out_cut[np.nonzero(out_cut < .3)] = 0.0
-                out_cut[np.nonzero(out_cut >= .3)] = 1.0
+                out_thresh = np.copy(outputs.data.cpu().numpy())
+                out_thresh[np.nonzero(out_thresh < .3)] = 0.0
+                out_thresh[np.nonzero(out_thresh >= .3)] = 1.0
 
-                picloss = self.loss.F1_metric(out_cut, target.data.cpu().numpy())
-                valloss += picloss
+                loss = self.loss.F1_metric(out_thresh, target.data.cpu().numpy())
+                loss_v += loss
 
-        return valloss / idx
+        return loss_v / idx
 
     @classmethod
     def _init_weights(cls, layer: nn.Module):
